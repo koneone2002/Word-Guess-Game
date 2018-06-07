@@ -4,7 +4,7 @@
  var guessesLeft = 9;
  var answer = "";
  var alphabetLetters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
- 
+ var availableLetters = "abcdefghijklmnopqrstuvwxyz";
  // guess is what the player picks by pressing a key
  var guess = "";
  // guessed is an array that stores the player's guess in each round
@@ -19,6 +19,7 @@
 // create a start function which resets wins losses and guesses back to zero and makes a new computer Guess
 
  function restart() {
+     availableLetters = "abcdefghijklmnopqrstuvwxyz";
      guessed = [];
      answer = "";
      guessesLeft = 9;
@@ -33,9 +34,13 @@
 
  document.onkeyup = function(event) {
      guess = String.fromCharCode(event.keyCode).toLowerCase();
+     //if (guess.indexOf(alphabetLetters) === -1) {
+           //  alert("please choose a letter");
+        // }
      
      if (answer === guess) {
         wins++;
+        document.getElementById("wins").innerHTML = "Wins : " + wins;
         alert("You won");
         restart();  
 
@@ -50,9 +55,12 @@
 // we will put the guessed letter in an array so it cannot be guessed again
      
      } else if (answer != guess) {
-         guessesLeft --;
          guessed.push(guess);
-         document.getElementById("guesses").innerHTML = "Letters Guessed: " + guessed;
+         guessesLeft --;
+         document.getElementById("guessesLeft").innerHTML = "Guesses remaining: " + guessesLeft;
+         document.getElementById("guesses").innerHTML = "Letters Guessed: " + guess;
+         document.getElementById("guessed").innerHTML = "Letters Guessed: " + guessed;
+
          console.log("guessed is " + guessed);
          console.log("guesses Left: " + guessesLeft);
 
@@ -64,6 +72,7 @@
          if (guessesLeft === 0) {
              alert("you lose, press any key to contine");
              losses++;
+             document.getElementById("losses").innerHTML = "Losses: " + losses;
              restart();
          }
      }
